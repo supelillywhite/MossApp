@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
-class CoursesContainer extends Component {
+class LinkageContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,7 +17,6 @@ class CoursesContainer extends Component {
   componentDidMount() {
     axios.get('http://localhost:3001/api/v1/courses.json')
     .then(response => {
-      console.log(response)
       this.setState({courses: response.data})
     })
     .catch(error => console.log(error))
@@ -20,17 +24,15 @@ class CoursesContainer extends Component {
 
   render() {
     return (
-      <div>
+      <ul className="dropdown-menu">
         {this.state.courses.map((course) => {
-          return(
-            <div className="tile" key={course.id} >
-              <h4>{course.title}</h4>
-            </div>
-          )       
+          return (
+            <li className="dropdown-item cheese" key={course.id}><Link to={`/course/${course.id}`}>{course.title}</Link></li>
+          )
         })}
-      </div>
+      </ul>
     );
   }
 }
 
-export default CoursesContainer
+export default LinkageContainer

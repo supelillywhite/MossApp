@@ -1,12 +1,17 @@
 module Api::V1
   class CoursesController < ApplicationController
     def index
-      @courses = Course.all
+      @courses = Course.order("created_at DESC")
       render json: @courses
     end
 
     def create
-      @course = Course.create(idea_params)
+      @course = Course.create(course_params)
+      render json: @course
+    end
+
+    def show
+      @course = Course.find(params[:id])
       render json: @course
     end
 
@@ -28,7 +33,7 @@ module Api::V1
     private
 
       def course_params
-        params.require(:course).permit(:title)
+        params.require(:course).permit(:title, :description)
       end
   end
 end
